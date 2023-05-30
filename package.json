@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dev": "npx concurrently \"wrangler dev server.entry.tsx\" \"npm run dev:tailwind\"",
+    "deploy": "wrangler deploy --minify server.entry.tsx",
+    "dev:tailwind": "npx tailwindcss -w -i tailwind.css -o public/styles/style.css"
+  },
+  "dependencies": {
+    "hono": "^3.2.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230518.0",
+    "@cloudflare/kv-asset-handler": "^0.3.0",
+    "wrangler": "^3.0.1"
+  }
+}
