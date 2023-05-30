@@ -1,3 +1,21 @@
+export const Head = () => {
+  return (
+    <>
+      <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <title>Login</title>
+      </head>
+    </>
+  );
+};
+
 export default function Home() {
   return (
     <html lang="en">
@@ -30,10 +48,17 @@ export default function Home() {
               Abre tu sesión a través de tu cuenta de Google. De esta forma tus
               datos siempre están seguros y no hay contraseñas qué recordar. 🤯
             </p>
-            <button class="bg-green-700 py-2 px-4 rounded-md text-white text-lg hover:bg-green-600">
-              <i class="fa-brands fa-google"></i>
-              Inicia sesión con Google
-            </button>
+            <form>
+              <button
+                type="submit"
+                name="intent"
+                value="google-login"
+                class="bg-green-700 py-2 px-4 rounded-md text-white text-lg hover:bg-green-600"
+              >
+                <i class="fa-brands fa-google"></i>{" "}
+                <span>Inicia sesión con Google</span>
+              </button>
+            </form>
           </section>
           <section class="text-gray-500">
             <h3 class="uppercase text-sm mb-2">

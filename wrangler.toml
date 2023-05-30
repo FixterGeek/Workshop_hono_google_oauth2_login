@@ -4,3 +4,8 @@ compatibility_date = "2023-01-01"
 
 [site]
 bucket = "./public"
+
+[vars]
+GOOGLE_CLIENT_ID="325591888601-hapgr9g06vuqms8bp50rga6r60d10mb4.apps.googleusercontent.com"
+GOOGLE_SECRET="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"
+ENV="development"
