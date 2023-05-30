@@ -25,6 +25,7 @@ app.get("/", async (c) => {
 
   if (intent === "logout") {
     setCookie(c, "userId", "");
+    //You can redirect instead of return a Component
     return c.html(<Home />);
   }
 
