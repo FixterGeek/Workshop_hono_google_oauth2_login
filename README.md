@@ -4,6 +4,8 @@
 
 El consumo del API de Google como proveedor del servicio se hace por medio de `fetch` y se han creado 3 funciones que nos ayudan a administrar estas peticiones, pero que al mismo tiempo son fáciles de leer, ya que se evita la sintaxis `async/await`.
 
+Los estilos están relajados. Aún aprendiendo.
+
 ```jsx
 // lib/GoogleOauth2.ts
 export const getExtraData
@@ -99,6 +101,6 @@ wrangler deploy --minify server.entry.tsx
 
 ¡Y ya está, estás en producción! 🤯
 
-Disfrútalo y no dejes de [suscribirte](https://fixtergeek.com/subscribe)
+Disfrúta la lectura y no dejes de [suscribirte](https://fixtergeek.com/subscribe)
 
 Abrazo. Bliss. 🤓
