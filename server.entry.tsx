@@ -1,10 +1,10 @@
-import { Hono } from "hono";
+import { Hono, Env, Context } from "hono";
 import { serveStatic } from "hono/cloudflare-workers";
 import Home from "./components/Home";
 import {
   getAccessToken,
   getExtraData,
-  reidrectToGoogle,
+  redirectToGoogle,
 } from "./lib/GoogleOauth2";
 import Dash from "./components/Dash";
 import { getCookie, setCookie } from "hono/cookie";
@@ -35,18 +35,21 @@ app.get("/", async (c) => {
   }
 
   if (code) {
-    const data = (await getAccessToken(code, c.env)) as GOOGLEDATA;
-    // check errors
+    const data = await getAccessToken<string, Env["Variables"]>(code, c.env);
+    // check errors @todo
     const extra = (await getExtraData(data.access_token)) as GOOGLEDATA;
     // @TODO: save/update your user in DB
+    // errors @todo
     // set cookie
-    console.log("Extra: ", extra);
-    setCookie(c, "userId", extra.email);
+    setCookie(c, "userId", extra.email as string);
     return c.html(<Dash email={extra.email} picture={extra.picture} />);
   }
 
   if (intent === "google-login") {
-    return reidrectToGoogle(c.redirect, c.env);
+    return redirectToGoogle<Context["redirect"], Context["env"]>(
+      c.redirect,
+      c.env
+    );
   }
   return c.html(<Home />);
 });

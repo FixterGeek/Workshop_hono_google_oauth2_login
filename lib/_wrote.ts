@@ -1,3 +1,5 @@
+import { Variables } from "hono/dist/types/types";
+
 const prodURL = "";
 
 export type EnvObject =
@@ -60,17 +62,17 @@ export const getAccessToken = async <
 export function redirectToGoogle<
   Redirect extends (arg0: string) => Response,
   Env extends EnvObject
->(redirect: Redirect, env: Env): Response {
+>(redirect: Redirect, env: Env): Response | ResultResponse {
   if (!env || !env.GOOGLE_SECRET || !env.GOOGLE_CLIENT_ID)
-    throw new Error("Missing env object");
-  const obj = {
-    client_id: env.GOOGLE_CLIENT_ID,
-    redirect_uri: env.ENV === "production" ? prodURL : "http://localhost:8787",
-    response_type: "code",
-    scope: "https://www.googleapis.com/auth/userinfo.email",
-  };
-  console.log("Ojeto", obj);
+    return { ok: false, error: new Error("missing env object") };
   const url =
-    "https://accounts.google.com/o/oauth2/auth?" + new URLSearchParams(obj);
+    "https://accounts.google.com/o/oauth2/auth?" +
+    new URLSearchParams({
+      client_id: env.GOOGLE_CLIENT_ID,
+      redirect_uri:
+        env.ENV === "development" ? "http://localhost:8787" : prodURL,
+      response_type: "code",
+      scope: "https://www.googleapis.com/auth/userinfo.email",
+    });
   return redirect(url);
 }
