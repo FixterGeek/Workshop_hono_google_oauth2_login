@@ -69,7 +69,6 @@ export function redirectToGoogle<
     response_type: "code",
     scope: "https://www.googleapis.com/auth/userinfo.email",
   };
-  console.log("Ojeto", obj);
   const url =
     "https://accounts.google.com/o/oauth2/auth?" + new URLSearchParams(obj);
   return redirect(url);
