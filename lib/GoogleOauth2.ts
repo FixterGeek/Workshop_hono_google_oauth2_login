@@ -1,5 +1,16 @@
-export const getExtraData = (access_token: string | undefined) => {
-  if (!access_token) return { ok: false, error: "No token" };
+const prodURL = "https://hono-workshop.blissmo.workers.dev/";
+
+type ResultResponse =
+  | {
+      ok: boolean;
+      error?: Error;
+    }
+  | Record<string, string | boolean>;
+
+type ExtraType = Promise<ResultResponse | Record<string, any>>;
+
+export const getExtraData = (access_token: string | undefined): ExtraType => {
+  if (!access_token) return { ok: false, error: new Error("No token") };
   const url = "https://www.googleapis.com/oauth2/v2/userinfo";
   return fetch(url, {
     headers: {
@@ -7,10 +18,19 @@ export const getExtraData = (access_token: string | undefined) => {
     },
   })
     .then((r) => r.json())
-    .catch((e) => ({ ok: false, error: e }));
+    .catch((e) => ({ ok: false, error: e })) as ExtraType;
 };
 
-export const getAccessToken = (code: string, env: any) => {
+type TokenData = {
+  access_token: string;
+  expires_in: number;
+  scope: string;
+  token_type: "Bearer";
+  id_token: string;
+};
+type GetAccessToken = Promise<TokenData | ResultResponse>;
+
+export const getAccessToken = (code: string, env: any): GetAccessToken => {
   const url =
     "https://oauth2.googleapis.com/token?" +
     new URLSearchParams({
@@ -20,9 +40,7 @@ export const getAccessToken = (code: string, env: any) => {
 
       client_id: env.GOOGLE_CLIENT_ID,
       redirect_uri:
-        env.ENV === "development"
-          ? "http://localhost:8787"
-          : "https://hono-login.blissmo.workers.dev",
+        env.ENV === "production" ? prodURL : "http://localhost:8787",
       response_type: "code",
       scope: "https://www.googleapis.com/auth/userinfo.email",
     });
@@ -31,7 +49,7 @@ export const getAccessToken = (code: string, env: any) => {
     headers: { "content-type": "application/json" },
   })
     .then((r) => r.json())
-    .catch((e) => ({ ok: false, error: e }));
+    .catch((e) => ({ ok: false, error: e })) as GetAccessToken;
 };
 
 export const reidrectToGoogle = (redirect: any, env: any) => {
@@ -40,9 +58,7 @@ export const reidrectToGoogle = (redirect: any, env: any) => {
     new URLSearchParams({
       client_id: env.GOOGLE_CLIENT_ID,
       redirect_uri:
-        env.ENV === "development"
-          ? "http://localhost:8787"
-          : "https://hono-login.blissmo.workers.dev",
+        env.ENV === "development" ? "http://localhost:8787" : prodURL,
       response_type: "code",
       scope: "https://www.googleapis.com/auth/userinfo.email",
     });

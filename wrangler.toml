@@ -1,4 +1,4 @@
-name = "hono-login-dev"
+name = "hono-login"
 main = "server.entry.tsx"
 compatibility_date = "2023-01-01"
 
