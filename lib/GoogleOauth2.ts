@@ -44,7 +44,7 @@ export const getAccessToken = async <
       code,
       client_secret: env.GOOGLE_SECRET,
       grant_type: "authorization_code",
-      client: env.GOOGLE_CLIENT_ID,
+      client_id: env.GOOGLE_CLIENT_ID,
       redirect_uri:
         env.ENV === "production" ? prodURL : "http://localhost:8787",
       scope: "https://www.googleapis.com/auth/userinfo.email",
